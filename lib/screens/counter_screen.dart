@@ -25,75 +25,74 @@ class CounterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          sampleWidgetNoRebuild(context),
-          sampleWidgetRebuildsAndItSucks(),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // sampleWidgetRebuildsAndItSucks(),
+            sampleWidgetNoRebuild(context),
+          ],
+        ),
       ),
     );
   }
 
   Widget sampleWidgetRebuildsAndItSucks() {
-    return Center(
-      child: Consumer<CounterProvider>(
-        builder: (_, value, _) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                color: getRandomColor(),
-                width: getRandomNumber(),
-                height: getRandomNumber(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () => value.updateCounter(false),
-                    icon: Icon(Icons.remove),
-                  ),
-                  Text('${value.counter}'),
-                  IconButton(
-                    onPressed: () => value.updateCounter(true),
-                    icon: Icon(Icons.add),
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      ),
+    return Consumer<CounterProvider>(
+      builder: (_, value, _) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: getRandomColor(),
+              width: getRandomNumber(),
+              height: getRandomNumber(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () => value.updateCounter(false),
+                  icon: Icon(Icons.remove),
+                ),
+                Text('${value.counter}'),
+                IconButton(
+                  onPressed: () => value.updateCounter(true),
+                  icon: Icon(Icons.add),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 
   Widget sampleWidgetNoRebuild(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(color: getRandomColor(), width: 100, height: 100),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () =>
-                    context.read<CounterProvider>().updateCounter(false),
-                icon: Icon(Icons.remove),
-              ),
-              Selector<CounterProvider, int>(
-                builder: (_, counter, _) => Text('$counter'),
-                selector: (_, provider) => provider.counter,
-              ),
-              IconButton(
-                onPressed: () =>
-                    context.read<CounterProvider>()..updateCounter(true),
-                icon: Icon(Icons.add),
-              ),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(color: getRandomColor(), width: 100, height: 100),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () =>
+                  context.read<CounterProvider>().updateCounter(false),
+              icon: Icon(Icons.remove),
+            ),
+            Selector<CounterProvider, int>(
+              builder: (_, counter, _) => Text('$counter'),
+              selector: (_, provider) => provider.counter,
+            ),
+            IconButton(
+              onPressed: () =>
+                  context.read<CounterProvider>()..updateCounter(true),
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
